@@ -133,15 +133,25 @@ export function ComplaintForm({ onSuccess, onCancel }: ComplaintFormProps) {
     setLoading(true);
 
     try {
-      // Convert base64 to blob
-      const response = await fetch(capturedImage);
-      const blob = await response.blob();
+      // Convert base64 to blob with proper MIME type
+      const base64Data = capturedImage.split(',')[1];
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' });
+      
       const fileName = `${user.id}/${Date.now()}.jpg`;
 
-      // Upload to storage
+      // Upload to storage with explicit content type
       const { error: uploadError } = await supabase.storage
         .from('complaint-photos')
-        .upload(fileName, blob, { contentType: 'image/jpeg' });
+        .upload(fileName, blob, { 
+          contentType: 'image/jpeg',
+          cacheControl: '3600'
+        });
 
       if (uploadError) throw uploadError;
 
