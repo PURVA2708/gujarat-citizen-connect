@@ -1,8 +1,6 @@
 import { Shield, Phone, Mail, MapPin } from 'lucide-react';
-
 export function Footer() {
-  return (
-    <footer className="bg-foreground text-background py-12">
+  return <footer className="bg-foreground text-background py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -55,9 +53,8 @@ export function Footer() {
 
         <div className="border-t border-background/10 mt-8 pt-8 text-center text-sm text-background/50">
           <p>© {new Date().getFullYear()} Government of Gujarat. All rights reserved.</p>
-          <p className="mt-2">Built with ❤️ for the citizens of Gujarat</p>
+          <p className="mt-2">Built with N+1 and teams for the citizens of Gujarat</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
